@@ -14,7 +14,7 @@ In this topic, I am going to talk about how to install AWX with docker. I am goi
 
 
 # 1) Installing ansible
-You need to install ansible-core package of RHEL8.
+You need to install ansible-core package for RHEL8.
 ```sh
 [root@linuxserver ~]#yum install ansible-core -y
 ```
