@@ -114,7 +114,7 @@ Docker Compose version v2.11.0
 
 ```
 
-# 4) Create AWX directory
+# 4) Creating AWX directory
 I created a new lv named lv_awx and awx directory under /var/lib.
 ```sh
 [root@linuxserver ~]# lvs
