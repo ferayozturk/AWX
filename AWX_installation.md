@@ -1,4 +1,3 @@
-<img width="745" alt="Capture" src="https://user-images.githubusercontent.com/28459280/194848270-b179f6f7-5c97-47ef-a3d6-60ea210808f9.PNG">
 Hello everyone !
 
 In this topic, I am going to talk about how to install AWX with docker. I am going to install 17.1.0 version of AWX. If you want to install the lastest version, then you need to install AWX operator which you will need to kubernetes cluster.
