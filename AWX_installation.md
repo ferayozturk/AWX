@@ -29,6 +29,7 @@ ansible [core 2.12.2]
   python version = 3.8.12 (default, Sep 16 2021, 10:46:05) [GCC 8.5.0 20210514 (Red Hat 8.5.0-3)]
   jinja version = 2.10.3
   libyaml = True
+```
 
 # 2) Installing docker and docker-compose
 You need to create /var/lib/docker directory and mount the filesytem. Please be careful not to install under root.
@@ -115,12 +116,94 @@ Docker Compose version v2.11.0
 
 ```
 
-# 4) Editing AWX inventory
-
-First of all, you need to get awx git repository
+# 4) Create AWX directory
+I created a new lv named lv_awx and awx directory under /var/lib.
 ```sh
-git clone -b "17.1.0" https://github.com/ansible/awx.git
+[root@linuxserver ~]# lvs
+  LV        VG        Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert                                                  
+  lv_awx vg_data   -wi-ao---- 15.00g  
+
+[root@linuxserver ~]# mkfs.xfs /dev/mapper/vg_data-lv_awx
+[root@linuxserver ~]#vi /etc/fstab
+/dev/mapper/vg_data-lv_awx   /var/lib/awx   xfs     defaults        0 0
+[root@linuxserver ~]#mkdir /var/lib/awx
+[root@linuxserver ~]#mount -a
+```
+Also you need to create the following directory under /var/lib/awx
+```sh
+[root@linuxserver ~]#mkdir /var/lib/awx/awxcompose
+[root@linuxserver ~]#mkdir /var/lib/awx/pgdocker
+[root@linuxserver ~]#mkdir /var/lib/awx/projects
 ```
 
+# 5) Editing AWX inventory
+
+First of all, you need to clone awx git repository to local
+```sh
+[root@linuxserver ~]#git clone -b "17.1.0" https://github.com/ansible/awx.git
+[root@linuxserver ~]#cd awx-17.1.0/installer
+[root@linuxserver ~]#vi inventory
+```
+You need to edit the following parameters
+```sh
+dockerhub_base=ansible
+
+awx_task_hostname=awx
+awx_web_hostname=awxweb
+postgres_data_dir="/var/lib/awx/pgdocker"
+host_port=80
+host_port_ssl=443
+docker_compose_dir="/var/lib/awx/awxcompose"
+
+pg_username=awx
+pg_password=awxpassword
+pg_database=awx
+pg_port=5432
+
+admin_user=admin
+admin_password=adminpassword12
+
+create_preload_data=True
+
+secret_key=k9ON4KqaPFPC7U783452  #you can create the secret with this command "openssl rand -base64 30"
+
+awx_official=false
+
+project_data_dir=/var/lib/awx/projects
+```
+
+# 6) Installing community.docker
+To use the docker modules, it is necessary to install community.docker with ansible-galaxy
+```sh
+[root@linuxserver ~]#ansible-galaxy collection install community.docker
+```
+
+# 7) Editing compose.yml
+You need to add ansible_python_interpreter variable to the playbook.
+```sh
+[root@linuxserver ~]#vi awx-17.1.0/installer/roles/local_docker/tasks/compose.yml
+
+    - name: Start the containers
+      docker_compose:
+        project_src: "{{ docker_compose_dir }}"
+        restarted: "{{ awx_compose_config is changed or awx_secret_key is changed }}"
+      register: awx_compose_start
+      vars:
+        ansible_python_interpreter: /bin/python3
+```
+
+# 8) Running installation playbook
+This is final task. Your AWX application will be ready in 5 minutes :)
+```sh
+[root@linuxserver installer]#ansible-playbook -i inventory install.yml -vvv
+```
+```sh
+[root@linuxserver installer]## docker ps
+CONTAINER ID   IMAGE                COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+58a930767548   ansible/awx:17.1.0   "/usr/bin/tini -- /u…"   45 seconds ago   Up 43 seconds   8052/tcp                                awx_task
+85d764dd0c6b   ansible/awx:17.1.0   "/usr/bin/tini -- /b…"   46 seconds ago   Up 43 seconds   0.0.0.0:80->8052/tcp, :::80->8052/tcp   awx_web
+37932e7a3db8   postgres:12          "docker-entrypoint.s…"   47 seconds ago   Up 42 seconds   5432/tcp                                awx_postgres
+3a3aa25e388f   redis                "docker-entrypoint.s…"   47 seconds ago   Up 42 seconds   6379/tcp                                awx_redis
+```
 
 
