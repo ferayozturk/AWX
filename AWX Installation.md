@@ -13,7 +13,7 @@ In this topic, I am going to talk about how to install AWX with docker. I am goi
   - docker-compose (1.29.2)
 
 
-# 1) Installing ansible
+### 1) Installing ansible
 You need to install ansible-core package for RHEL8.
 ```sh
 [root@linuxserver ~]#yum install ansible-core -y
@@ -31,7 +31,7 @@ ansible [core 2.12.2]
   libyaml = True
 ```
 
-# 2) Installing docker and docker-compose
+### 2) Installing docker and docker-compose
 You need to create /var/lib/docker directory and mount the filesytem. Please be careful not to install under root.
 ```sh
 I created a new volume group named vg_data and a new logical volume named lv_docker.
@@ -99,7 +99,7 @@ Server: Docker Engine - Community
 Docker Compose version v2.11.0
 ```
 
-# 3) Installing required python3 packages
+### 3) Installing required python3 packages
 
 ```sh
 [root@linuxserver ~]#pip3 install ansible
@@ -114,7 +114,7 @@ Docker Compose version v2.11.0
 
 ```
 
-# 4) Creating AWX directory
+### 4) Creating AWX directory
 I created a new lv named lv_awx and awx directory under /var/lib.
 ```sh
 [root@linuxserver ~]# lvs
@@ -134,7 +134,7 @@ Also you need to create the following directory under /var/lib/awx
 [root@linuxserver ~]#mkdir /var/lib/awx/projects
 ```
 
-# 5) Editing AWX inventory
+### 5) Editing AWX inventory
 
 First of all, you need to clone awx git repository to local
 ```sh
@@ -170,13 +170,13 @@ awx_official=false
 project_data_dir=/var/lib/awx/projects
 ```
 
-# 6) Installing community.docker
+### 6) Installing community.docker
 To use the docker modules, it is necessary to install community.docker with ansible-galaxy
 ```sh
 [root@linuxserver ~]#ansible-galaxy collection install community.docker
 ```
 
-# 7) Editing compose.yml
+### 7) Editing compose.yml
 You need to add ansible_python_interpreter variable to the playbook.
 ```sh
 [root@linuxserver ~]#vi awx-17.1.0/installer/roles/local_docker/tasks/compose.yml
@@ -190,7 +190,7 @@ You need to add ansible_python_interpreter variable to the playbook.
         ansible_python_interpreter: /bin/python3
 ```
 
-# 8) Running installation playbook
+### 8) Running installation playbook
 This is final task. It will be ready in 5 minutes :)
 ```sh
 [root@linuxserver installer]#ansible-playbook -i inventory install.yml -vvv
