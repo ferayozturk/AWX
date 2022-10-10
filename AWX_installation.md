@@ -1,3 +1,4 @@
+<img width="745" alt="Capture" src="https://user-images.githubusercontent.com/28459280/194848270-b179f6f7-5c97-47ef-a3d6-60ea210808f9.PNG">
 Hello everyone !
 
 In this topic, I am going to talk about how to install AWX with docker. I am going to install 17.1.0 version of AWX. If you want to install the lastest version, then you need to install AWX operator which you will need to kubernetes cluster.
@@ -191,7 +192,7 @@ You need to add ansible_python_interpreter variable to the playbook.
 ```
 
 # 8) Running installation playbook
-This is final task. Your AWX application will be ready in 5 minutes :)
+This is final task. It will be ready in 5 minutes :)
 ```sh
 [root@linuxserver installer]#ansible-playbook -i inventory install.yml -vvv
 ```
@@ -203,5 +204,6 @@ CONTAINER ID   IMAGE                COMMAND                  CREATED          ST
 37932e7a3db8   postgres:12          "docker-entrypoint.s…"   47 seconds ago   Up 42 seconds   5432/tcp                                awx_postgres
 3a3aa25e388f   redis                "docker-entrypoint.s…"   47 seconds ago   Up 42 seconds   6379/tcp                                awx_redis
 ```
+<img width="745" alt="Capture" src="https://user-images.githubusercontent.com/28459280/194848366-c0906923-102b-4d52-b053-5a499be952c8.PNG">
 
 
