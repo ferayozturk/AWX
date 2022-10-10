@@ -26,7 +26,7 @@ ansible [core 2.12.2]
   ansible python module location = /usr/lib/python3.8/site-packages/ansible
   ansible collection location = /root/.ansible/collections:/usr/share/ansible/collections
   executable location = /bin/ansible
-  python version = 3.8.12 (default, Sep 16 2021, 10:46:05) [GCC 8.5.0 20210514 (Red Hat 8.5.0-3)]
+  python version = 3.8.12
   jinja version = 2.10.3
   libyaml = True
 ```
@@ -49,13 +49,11 @@ I created a new volume group named vg_data and a new logical volume named lv_doc
 [root@linuxserver ~]#mkdir /var/lib/docker
 [root@linuxserver ~]#mount -a
 [root@linuxserver ~]#vi /etc/yum.repos.d/docker.repo
->
 	[docker]
 	name= Docker repo for rhel8
 	baseurl= <dokcer package path>
 	enabled= 1
 	gpg_check= 0
->
 [root@linuxserver ~]# yum install docker-ce docker-ce-cli --nobest --allowerasing -y
 [root@linuxserver ~]#systemctl enable docker
 [root@linuxserver ~]#systemctl status docker
