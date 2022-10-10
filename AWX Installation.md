@@ -2,7 +2,7 @@ Hello everyone !
 
 In this topic, I am going to talk about how to install AWX with docker. I am going to install 17.1.0 version of AWX. If you want to install the lastest version, then you need to install AWX operator which you will need to kubernetes cluster.
 
-# Pre-requirements:
+##### Pre-requirements:
 - 4vcpu,8GB memory,15GB (for awx)+20GB (for docker) disks rhel8/centos8 linux server
 - python3, ansible, docker, docker-compose --> I added detailed information about the version of the packages below.
 - python3 packages 
