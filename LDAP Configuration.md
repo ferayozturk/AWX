@@ -29,22 +29,22 @@ After you logined to the console, choose "Settings" from the left menu. And then
 - LDAP Required Group: CN=<group_name>,DC=<domain name>,DC=<top level domain>  #If you only want members of your group to log in, you must add the group name here. Thus, only members of this group can log in.
 - LDAP Deny Group: <blank>
 - LDAP User Search:
-  ```sh
-  [
+```sh
+[
   "DC=<domain name>,DC=<domain name>,DC=com",
   "SCOPE_SUBTREE",
   "(sAMAccountName=%(user)s)"
 ]
-  ```
+```
   
  - LDAP Group Search:
 ```sh
-  [
+[
   "DC=<domain name>,DC=<domain name>,DC=com",
   "SCOPE_SUBTREE",
   "(objectClass=group)"
 ]
-  ```
+```
   
  - LDAP User Attribute Map:
 ```sh
@@ -53,15 +53,15 @@ After you logined to the console, choose "Settings" from the left menu. And then
   "last_name": "sn",
   "email": "mail"
 }
-  ```
+```
    
   - LDAP Group Type Parameters:
-  ```sh
+```sh
 {
   "name_attr": "cn",
   "member_attr": "member"
 }
-  ```
+```
   
   - LDAP User Flags By Group: <blank>
   - LDAP Organization Map: <blank>
